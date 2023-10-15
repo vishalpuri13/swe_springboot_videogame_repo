@@ -3,7 +3,7 @@ package Gameatorium.videogames.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -31,7 +31,8 @@ public class Games {
     @Column(name = "platform", nullable=false)
     private String platform;
 
-    @Column(name = "release_date", nullable=false)
-    private Date releaseDate;
+    @Column(name = "release_date", nullable = false)
+//    @Temporal(TemporalType.DATE)
+    private LocalDate releaseDate;
 
 }

@@ -2,6 +2,7 @@ package Gameatorium.videogames.models;
 
 import lombok.*;
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Setter
@@ -33,8 +34,14 @@ public class Users {
     @Column(name = "user_password", nullable=false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private Set<UsersRole> usersRoles;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+
+    private Set<UsersRoles> roles = new HashSet<>();
 
 
 }

@@ -1,7 +1,11 @@
 package Gameatorium.videogames.services;
 
+import Gameatorium.videogames.exceptions.RoleNotFoundException;
+import Gameatorium.videogames.exceptions.UserNotFoundException;
 import Gameatorium.videogames.models.Users;
+import Gameatorium.videogames.models.UsersRoles;
 import Gameatorium.videogames.repositories.UsersRepository;
+import Gameatorium.videogames.repositories.UsersRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,44 +16,45 @@ public class UsersService {
 
     @Autowired
     UsersRepository usersRepo;
+    @Autowired
+    private UsersRolesRepository roleRepo;
 
-    public Users save(Users user) { return usersRepo.save(user);   }
-
-    public List<Users> getAllUsers() { return usersRepo.findAll(); }
-
-    public Users getUserById(Long userId) throws RuntimeException {
-        return usersRepo.findById(userId).orElseThrow(
-                                            () -> new RuntimeException("User not found with id: "+ userId));}
-
-    public Object getUserByEmail(String emailId) throws RuntimeException {
-        try { return usersRepo.findByEmailId(emailId);}
-        catch (RuntimeException e) {
-            return ("User not found with the email: "+ emailId);}
+    public Users save(Users user) {
+        return usersRepo.save(user);
     }
 
-    public Object updateUser(Users user, Long userId) throws RuntimeException {
-        try {
-            Users existingUser = usersRepo.findById(userId).get();
-            existingUser.setFirstName(user.getFirstName());
-            existingUser.setLastName(user.getLastName());
-            existingUser.setEmailId(user.getEmailId());
-            existingUser.setAge(user.getAge());
-            existingUser.setPassword(user.getPassword());
-            existingUser.setUsersRoles(user.getUsersRoles());
-            return usersRepo.save(existingUser);
-        }
-        catch (RuntimeException e) {
-            return ("User not found with the id: "+ userId);}
+    public List<Users> getAllUsers() {
+        return usersRepo.findAll();
     }
 
-    public String deleteUser(Long userId) throws RuntimeException {
-        try {
-            Users existingUser = usersRepo.findById(userId).get();
-            usersRepo.delete(existingUser);
-            return ("User successfully deleted with id: " + userId);
-        }
-        catch (RuntimeException e) {
-            return ("User not found with the id: "+ userId);}
+    public Users getUserById(Long userId) {
+        return usersRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
+    public Users getUserByEmail(String emailId) {
+        return usersRepo.findByEmailId(emailId).orElseThrow(() -> new UserNotFoundException(emailId));
+    }
+
+    public Users updateUser(Long userId, Users user) {
+        Users existingUser = usersRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setEmailId(user.getEmailId());
+        existingUser.setAge(user.getAge());
+        existingUser.setPassword(user.getPassword());
+        return usersRepo.save(existingUser);
+    }
+
+    public void deleteUser(Long userId) {
+        Users existingUser = usersRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        usersRepo.delete(existingUser);
+    }
+
+    public Users assignRole(Long userId, String roleName) {
+        Users user = usersRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        UsersRoles role = roleRepo.findByRoleName(roleName).orElseThrow(() -> new RoleNotFoundException(roleName));
+        user.getRoles().add(role);
+        return usersRepo.save(user);
+    }
 }
+
