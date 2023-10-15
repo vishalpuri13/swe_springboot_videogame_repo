@@ -1,2 +1,2 @@
-# Gameatrium - Videogames Library
+# Gameatorium - Videogames Library
  First SpringBoot Application
