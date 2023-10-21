@@ -1,18 +1,40 @@
 INSERT INTO users (first_name,last_name,user_age,email_id, password) VALUES ('Shahrukh','Khan',58,'pathaan@gmail.com','Pathaan@123');
 POST
 {
-    "gameName": "ABC",
-    "version": "2.0",
-    "genre": "Kids",
-    "platform": "350",
-    "releaseDate": "2023-10-20"
-}
+        "gameName": "Game1",
+        "version": "1.0",
+        "genre": "Kids",
+        "platform": "P1",
+        "releaseDate": "2023-10-20"
+    },
+    {
+        "gameName": "Game1",
+        "version": "2.0",
+        "genre": "Kids",
+        "platform": "P1",
+        "releaseDate": "2023-10-21"
+    },
+    {
+        "gameName": "Game2",
+        "version": "1.0",
+        "genre": "Adventure",
+        "platform": "P2",
+        "releaseDate": "2023-10-21"
+    },
+    {
+        "gameName": "Game2",
+        "version": "2.0",
+        "genre": "Adventure",
+        "platform": "P1",
+        "releaseDate": "2023-10-21"
+    }
 
 {
-    "firstName": "Nb",
-    "lastName": "S",
-    "age": 24,
-    "emailId": "nbs@gmail.com",
-    "password": "nbs@123",
-    "userRoles":"user"
+    "firstName": "ABC",
+    "lastName": "DEF",
+    "emailId": "abc.def@example.com",
+    "age": 30,
+    "username": "abcdef123",
+    "password": "mysecretpassword",
+    "roleNames": ["USER", "ADMIN"]
 }

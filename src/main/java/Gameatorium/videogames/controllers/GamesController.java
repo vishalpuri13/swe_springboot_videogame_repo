@@ -6,6 +6,7 @@ import Gameatorium.videogames.services.GamesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,13 @@ public class GamesController {
     GamesService gamesService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> createGame(@RequestBody Games game) {
         try {
             Games createdGame = gamesService.save(game);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdGame);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create the game: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad Request: Failed to create the game. Please check the details provided" + e.getMessage());
         }
     }
 
@@ -95,6 +97,7 @@ public class GamesController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> updateGame(@PathVariable Long id, @RequestBody Games game) {
         try {
             Games updatedGame = gamesService.updateGame(id, game);
@@ -107,6 +110,7 @@ public class GamesController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteGame(@PathVariable Long id) {
         try {
             gamesService.deleteGame(id);
