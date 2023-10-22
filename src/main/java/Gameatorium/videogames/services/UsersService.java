@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@Slf4j
 public class UsersService {
 
     @Autowired
@@ -111,5 +110,6 @@ public class UsersService {
         user.getRoles().add(role);
         return usersRepo.save(user);
     }
+
 }
 

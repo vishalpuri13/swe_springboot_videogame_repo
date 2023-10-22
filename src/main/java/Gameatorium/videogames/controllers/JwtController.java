@@ -17,6 +17,7 @@ public class JwtController {
     @Autowired
     private JwtService jwtService;
 
+
     @PostMapping("/users/login")
     public JwtResponse createAuthenticationToken(@RequestBody JwtRequest jwtRequest) throws UserNotFoundException,Exception {
         return jwtService.createJwtToken(jwtRequest);

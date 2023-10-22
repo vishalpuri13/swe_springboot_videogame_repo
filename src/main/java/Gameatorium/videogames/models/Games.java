@@ -32,7 +32,6 @@ public class Games {
     private String platform;
 
     @Column(name = "release_date", nullable = false)
-//    @Temporal(TemporalType.DATE)
     private LocalDate releaseDate;
 
 }

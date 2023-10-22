@@ -65,7 +65,7 @@ public class JwtService implements UserDetailsService {
         return new JwtResponse(newGeneratedToken);
     }
 
-    private void authenticate(String username, String password) throws UserNotFoundException,Exception {
+    public void authenticate(String username, String password) throws UserNotFoundException,Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
